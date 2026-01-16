@@ -6,9 +6,9 @@
 import java.util.Scanner;
 class Student {
 	// instance variables
-	int rollno;
-	String name;
-	double cgpa;
+	private int rollno;
+	private String name;
+	private double cgpa;
   	// public methods as codes
 	// setter getter  business methods
 	// alt shift s
@@ -41,12 +41,23 @@ class Student {
 	
 }
 //client class 
-
-
-
 public class TEST1 {
 	public static void main(String[] args) {
-
+        Student ob1= new Student();
+      //  ob1.cgpa=7.5; data hiding
+        ob1.setName("Sahoo");
+        ob1.setRollno(1);
+        ob1.setCgpa(7.5);
+        System.out.println(ob1.getName());
+        System.out.println(ob1.getCgpa());
+        System.out.println(ob1.getRollno());
+        ob1.updateCgpa();
+        System.out.println(ob1.getCgpa());
 	}
 
 }
+
+
+
+
+
