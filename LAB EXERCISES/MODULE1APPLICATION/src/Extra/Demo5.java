@@ -1,0 +1,131 @@
+/*objective - prepare a table of entries 
+consists of customerid as key and List of product 
+selected to purchase are values
+
+Define a Product 
+
+  Map<String, List<Product>>
+  sunny123--------------> {hp laptop, }
+*/
+import java.util.*;
+//pojo 
+class Product {
+	private String prodId;          
+	private String prodName;
+	private String prodCategory;
+	private double prodPrice;
+	// add getter setter, constructor , toString, equals and hashCode
+	public String getProdId() {
+		return prodId;
+	}
+	public void setProdId(String prodId) {
+		this.prodId = prodId;
+	}
+	public String getProdName() {
+		return prodName;
+	}
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
+	}
+	public String getProdCategory() {
+		return prodCategory;
+	}
+	public void setProdCategory(String prodCategory) {
+		this.prodCategory = prodCategory;
+	}
+	public double getProdPrice() {
+		return prodPrice;
+	}
+	public void setProdPrice(double prodPrice) {
+		this.prodPrice = prodPrice;
+	}
+	public Product(String prodId, String prodName, String prodCategory, double prodPrice) {
+		super();
+		this.prodId = prodId;
+		this.prodName = prodName;
+		this.prodCategory = prodCategory;
+		this.prodPrice = prodPrice;
+	}
+	public Product() {
+		super();
+	}
+	@Override
+	public String toString() {
+		return "Product [prodId=" + prodId + ", prodName=" + prodName + ", prodCategory=" + prodCategory
+				+ ", prodPrice=" + prodPrice + "]";
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(prodCategory, prodId, prodName, prodPrice);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return Objects.equals(prodCategory, other.prodCategory) && Objects.equals(prodId, other.prodId)
+				&& Objects.equals(prodName, other.prodName)
+				&& Double.doubleToLongBits(prodPrice) == Double.doubleToLongBits(other.prodPrice);
+	}
+	
+}
+public class Test5 {
+	public static void main(String[] args) {
+      List<Product> productList1 = new ArrayList<Product>();
+      productList1.add(new Product("pres101","Java Complete Reference","book",700));
+      productList1.add(new Product("pres109","Python","snake",1000));
+      productList1.add(new Product("pres1125","HP Laptop","Electronic",45000));
+      productList1.add(new Product("pres1199","Iphone","Electronic",150000));
+      List<Product> productList2 = new ArrayList<Product>();
+      productList2.add(new Product("pres101","Java Complete Reference","book",700));
+      productList2.add(new Product("pres1101","water bottles","Acessories",700));
+      productList2.add(new Product("pres1230","Jeans","Clothes",3000));
+      productList2.add(new Product("pres1199","Ihone","Electronic",150000));
+      productList2.add(new Product("pres101","Java Complete Reference","book",700));
+      List<Product> productList3 = new ArrayList<Product>();
+      productList3.add(new Product("pres230","Sotalol","medicine",200));
+      productList3.add(new Product("pres238","Carvedilol","medicine",700));
+      productList3.add(new Product("pres239","Aciclovir","medicine",70));
+      productList3.add(new Product("pres245","Pantoprazol","medicine",240));
+      productList3.add(new Product("pres289","Nitroglyserin","medicine",1000));
+      Map<String, List<Product>> table = 
+    		  new HashMap<String,List<Product>>();
+      table.put("PUNIV00448", productList3);
+      table.put("PUNIV01690", productList1);
+      table.put("PUNIV00123", productList2);
+      //Display the details of table
+      for(Map.Entry<String,List<Product>> e:table.entrySet()) {
+    	  System.out.println(e.getKey()+"->"+e.getValue());
+      }
+      //Display the details by name of products
+      for(Map.Entry<String,List<Product>> e:table.entrySet()) {
+    	  System.out.print(e.getKey()+"->");
+          e.getValue().stream().forEach(x->
+          System.out.print(x.getProdName()+","));
+          System.out.println();
+      } 
+      // Find all customers 
+      Set<String> customers=table.keySet();
+      System.out.println("Customers are "+customers);
+      // Find all products selected for customers
+   Collection allproducts= table.values();
+   System.out.println("Selected products are ");
+   allproducts.stream().forEach(x->System.out.println(x));
+   // find product selected for a specific customer
+   List<Product> empty=new ArrayList<Product>();
+   empty.add(null);
+   List<Product> products=table.getOrDefault("PUNIV01699",empty);
+   System.out.println("Selected products by PUNIV01699 ");
+   products.stream().forEach(x->System.out.println(x));
+   
+	}
+
+}
+
+
+
+
