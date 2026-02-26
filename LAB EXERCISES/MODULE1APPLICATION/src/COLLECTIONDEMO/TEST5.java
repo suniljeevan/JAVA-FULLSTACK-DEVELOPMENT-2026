@@ -1,0 +1,156 @@
+//demonstrate Set with custom Book Object
+package COLLECTIONDEMO;
+import java.util.*;
+import java.util.stream.Collectors;
+//set of custom objects - not generic
+//POJO // Bean // Entity
+class Book implements Comparable<Book>{
+	private String bookid;
+	private String booktitle;
+	private double price;
+	private String publisher;
+	private int pubyear;
+//add getter setter 
+	public String getBookid() {
+		return bookid;
+	}
+	public void setBookid(String bookid) {
+		this.bookid = bookid;
+	}
+	public String getBooktitle() {
+		return booktitle;
+	}
+	public void setBooktitle(String booktitle) {
+		this.booktitle = booktitle;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public String getPublisher() {
+		return publisher;
+	}
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+	public int getPubyear() {
+		return pubyear;
+	}
+	public void setPubyear(int pubyear) {
+		this.pubyear = pubyear;
+	}
+	//add constructor
+	public Book(String bookid, String booktitle, double price, String publisher, int pubyear) {
+		super();
+		this.bookid = bookid;
+		this.booktitle = booktitle;
+		this.price = price;
+		this.publisher = publisher;
+		this.pubyear = pubyear;
+	}
+	public Book() {
+		super();
+	}
+	//add toString()
+	@Override
+	public String toString() {
+		return "Book [bookid=" + bookid + ", booktitle=" + booktitle + ", price=" + price + ", publisher=" + publisher
+				+ ", pubyear=" + pubyear + "]";
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(bookid, booktitle, price, publisher, pubyear);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Book other = (Book) obj;
+		return Objects.equals(bookid, other.bookid) ;
+	}
+	public int compareTo(Book second) {
+		return this.booktitle.compareTo(second.booktitle);
+	}
+	
+	
+}
+
+
+public class TEST5 {
+	public static void main(String[] args) {
+        
+		TreeSet<Book> set = new TreeSet<Book>();
+		set.add(new Book("presiBook1","Life after death",1000,"Roli books",1992));
+		set.add(new Book("presiBook2","Wht death?",100,"Penguin random house",1967));
+		set.add(new Book("presiBook3","Purpose of Death",105,"Rupa Publications",1802));
+		set.add(new Book("presiBook4","Me and my Death",50,"Arihant Books",2050));
+		set.add(new Book("presiBook5","Me and my friends death",500,"Happer Collins",2049));
+		
+		//Displaying set as container of many integer objects
+		//insertion is not preserved
+		//duplicates are not allowed
+		Iterator itr = set.iterator();
+        while(itr.hasNext()) {
+        	System.out.println(itr.next());
+        }
+        //remove
+       boolean res= set.remove(new Book("presiBook2","wht death?",100,"Penguin random house",1967));
+        System.out.println(res);
+        System.out.println("after reomoval:");
+        itr = set.iterator();
+        while(itr.hasNext()) {
+        	System.out.println(itr.next());
+        }
+        //search
+       res= set.contains( new Book("presiBook2","wht death?",100,"Penguin random house",1967));
+        System.out.println(res);
+        
+        //sort
+        //Set is not indexed, so Collection.sort(list) 
+        //is not applicable
+        System.out.println("after sorting:");
+        itr = set.iterator();
+        while(itr.hasNext()) {
+        	System.out.println(itr.next());
+        }
+        //TreeSet
+        Book e= new Book("presiBook3","Purpose of Death",105,"Rupa Publications",1802);
+        System.out.println(set.first());
+        System.out.println(set.last());
+        System.out.println("Ceiling :"+set.ceiling(e));
+        System.out.println("Floor :"+set.floor(e));
+        NavigableSet<Book> desSet = set.descendingSet();
+        itr = desSet.iterator();
+        while(itr.hasNext()) {
+        	System.out.println(itr.next());
+        }
+     // find books with minimum price
+        Book lesspricebook=
+        		set.stream().min((x,y)->Double.compare(
+        				x.getPrice(), y.getPrice()))
+        		.get();
+        System.out.println("Less priced book"+lesspricebook);
+      //filter all books whose price are below 150  
+      Set<Book> filteredbooks =
+    		  set.stream()
+    		  .filter(x-> x.getPrice()<150)
+    		  .collect(Collectors.toSet());
+        System.out.println(filteredbooks);
+        //foreach 
+       set.stream().forEach(x->
+       System.out.println(x.getBooktitle()));
+	
+	//map book to price  mapToDouble
+	
+
+}
+}
+
+
+
