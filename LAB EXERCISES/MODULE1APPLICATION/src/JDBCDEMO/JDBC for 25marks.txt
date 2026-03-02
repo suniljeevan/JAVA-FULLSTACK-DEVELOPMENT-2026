@@ -1,0 +1,81 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class UniversityDAO {
+	
+    public static void create()throws Exception {
+    	Class.forName("com.mysql.jdbc.Driver");
+    	Connection c=
+    	    DriverManager.getConnection("jdbc:mysql://localhost:3306/universitydb","root","root");
+    	Statement s=c.createStatement();
+    	s.execute("create table faculty (id varchar(10), name varchar(20), salary double)");
+    	System.out.println("table created");
+    	c.close();
+    }
+    public static void insertRecord()throws Exception {
+    	Class.forName("com.mysql.jdbc.Driver");
+    	Connection c=
+    	    DriverManager.getConnection("jdbc:mysql://localhost:3306/universitydb","root","root");
+    	String sql="insert into faculty values(?,?,?)";
+    	PreparedStatement p=c.prepareStatement(sql);
+    	Scanner sc=new Scanner(System.in);
+    	char choice='y';
+    	do {
+    		System.out.println("enter id name salary");
+    		p.setString(1,sc.next());
+    		p.setString(2,sc.next());
+    		p.setDouble(3,sc.nextDouble());
+    		p.executeUpdate();
+    		System.out.println("enter choice");
+    		choice=sc.next().charAt(0);
+    	}while(choice!='n');
+    }
+    public static void updateRecord()throws Exception {
+    	Class.forName("com.mysql.jdbc.Driver");
+    	Connection c=
+    	    DriverManager.getConnection("jdbc:mysql://localhost:3306/universitydb","root","root");
+    	Statement s=c.createStatement();
+    	String sql="update faculty set salary=150000 where salary=100000";
+    	s.executeUpdate(sql);
+    	System.out.println("record updated");
+    	
+    }
+    public static void deleteRecord() throws Exception{
+    	Class.forName("com.mysql.jdbc.Driver");
+    	Connection c=
+    	    DriverManager.getConnection("jdbc:mysql://localhost:3306/universitydb","root","root");
+    	Statement s=c.createStatement();
+    	String sql="delete from faculty where id='101'";
+    	s.executeUpdate(sql);
+    	System.out.println("record deleted");
+    }
+    public static void fetchRecords() throws Exception{
+    	Class.forName("com.mysql.jdbc.Driver");
+    	Connection c=
+    	    DriverManager.getConnection("jdbc:mysql://localhost:3306/universitydb","root","root");
+    	Statement s=c.createStatement();
+    	ResultSet rs=s.executeQuery("select * from faculty");
+    	while(rs.next()) { 
+    	 System.out.print(rs.getString(1));
+    	 System.out.print(" "+rs.getString(2));
+    	  System.out.print(" "+rs.getDouble(3));
+    	 
+    	 System.out.println();
+    	}
+    	c.close();
+    }
+	public static void main(String[] args) throws Exception{
+		create();
+		insertRecord();
+		updateRecord();
+		deleteRecord();
+		fetchRecords();
+		
+
+	}
+
+}
